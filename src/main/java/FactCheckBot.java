@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FactCheckBot extends ListenerAdapter {
     public static void main(String[] args) throws Exception {
-        JDABuilder builder = JDABuilder.createDefault("MTA2MzkyMjc3NDc1OTk3NzA2MA.GS_d_h.Ju4E9QZJnm2tjLDBdMt6hCu2OyledKBfTVubrg");
+        JDABuilder builder = JDABuilder.createDefault("bot_token");
         JDA jda = builder.build();
         jda.addEventListener(new FactCheckBot());
     }
@@ -24,7 +24,7 @@ public class FactCheckBot extends ListenerAdapter {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/engines/davinci/completions")
+                .url("api_key")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer YOUR_API_KEY")
                 .post(RequestBody.create(MediaType.get("application/json"), "{\"prompt\":\"" + query + "\",\"max_tokens\":10}"))
