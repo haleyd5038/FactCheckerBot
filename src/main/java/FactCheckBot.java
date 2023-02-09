@@ -14,11 +14,12 @@ import static net.dv8tion.jda.api.JDABuilder.createDefault;
 public class FactCheckBot {
 
     private JDA api;
-    private String token = "MTA2MzkyMjc3NDc1OTk3NzA2MA.GoULm3.NDRl20_15MOMP3BU8fEKFEB1yiCPxiZqJeZy78";
+    private String token = "token";
 
     public FactCheckBot() throws LoginException, InterruptedException {
-        api = JDABuilder.createDefault(token, GatewayIntent.GUILD_MESSAGES , GatewayIntent.DIRECT_MESSAGES)
-                .addEventListeners(new search()).build()
+        api = JDABuilder.createDefault(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.DIRECT_MESSAGES)
+                .enableIntents(GatewayIntent.getIntents(GatewayIntent.DEFAULT))
+                .addEventListeners(new BotMessaging()).build()
                 .awaitReady();
     }
 
