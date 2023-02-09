@@ -1,55 +1,28 @@
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import okhttp3.*;
-
-import java.io.IOException;
-import java.net.URL;
-
-public class FactCheckBot extends ListenerAdapter {
-//    public static void main(String[] args) throws Exception {
-//        JDABuilder builder = JDABuilder.createDefault("MTA2MzkyMjc3NDc1OTk3NzA2MA.G523mq.j5RR3ptsx5VOtrryrlTLvJ5QebT1jkA-d1f-xI");
-//        JDA jda = builder.build();
-//        jda.addEventListener(new FactCheckBot());
-//    }
-//
-//    public void onMessageRecieved(MessageReceivedEvent event) throws IOException {
-//        if (event.getMessage().getContentRaw().startsWith("!factcheck")) {
-//            String query = event.getMessage().getContentRaw().substring("!factcheck".length()).trim();
-//            String result = run(String.valueOf(query));
-//            event.getChannel().sendMessage(result).queue();
-//        }
-//    }
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 
-    OkHttpClient client = new OkHttpClient();
+import javax.security.auth.login.LoginException;
 
-    String run(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+import static net.dv8tion.jda.api.JDABuilder.createDefault;
 
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
+public class FactCheckBot {
 
+    private JDA api;
+    private String token = "MTA2MzkyMjc3NDc1OTk3NzA2MA.GoULm3.NDRl20_15MOMP3BU8fEKFEB1yiCPxiZqJeZy78";
+
+    public FactCheckBot() throws LoginException, InterruptedException {
+        api = JDABuilder.createDefault(token, GatewayIntent.GUILD_MESSAGES , GatewayIntent.DIRECT_MESSAGES)
+                .addEventListeners(new search()).build()
+                .awaitReady();
     }
 
-        run("http://placekitten.com/200/300");
-//    private static String factCheck(String query) {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url("https://api.openai.com/v1/engines/davinci/completions")
-//                .addHeader("Content-Type", "application/json")
-//                .addHeader("Authorization", "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")
-//                .get().build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.body().string();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return "An error occurred while fact checking:" + e.getMessage();
-//        }
+    public static void main(String[] args) throws LoginException, InterruptedException {
+        new FactCheckBot();
     }
-    }
+}
